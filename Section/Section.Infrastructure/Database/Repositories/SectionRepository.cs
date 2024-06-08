@@ -1,4 +1,5 @@
-﻿using Section.Domain.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using Section.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,13 +25,19 @@ internal class SectionRepository : ISectionRepository
 
     public async Task DeleteSection(Section.Domain.Models.Section section)
     {
-         _context.Remove(section);
-         await _context.SaveChangesAsync();
+        _context.Remove(section);
+        await _context.SaveChangesAsync();
     }
 
     public async Task EditSection(Section.Domain.Models.Section section)
     {
         _context.Update(section);
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<Section.Domain.Models.Section> GetSection(Guid id)
+    {
+        var section = await _context.sections.FirstOrDefaultAsync(s => s.Id == id);
+        return section;
     }
 }

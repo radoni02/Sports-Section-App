@@ -12,7 +12,7 @@ namespace Section.Infrastructure.Database;
 
 public sealed class ApplicationDbContext : DbContext
 {
-    public ApplicationDbContext(DbContextOptions options) : base(options) {}
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) {}
 
     public DbSet<Section.Domain.Models.Section> sections { get; set; }
 
