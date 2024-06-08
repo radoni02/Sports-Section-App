@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Section.Domain.Models;
 
-public class Student
+public class Teacher
 {
-    public int Id { get;private set; }
-    public string Name { get;private set; }
+    public int Id { get; private set; }
+    public string Name { get; private set; }
 }
