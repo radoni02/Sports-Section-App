@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Section.Domain.Repositories;
+using Section.Infrastructure.Database.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +22,8 @@ public static class DatabaseExtension
         {
             options.UseNpgsql(connectionString);
         });
+
+        services.AddScoped<ISectionRepository, SectionRepository>();
 
         return services;
     }
