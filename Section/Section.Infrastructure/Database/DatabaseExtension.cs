@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Section.Application;
 using Section.Domain.Repositories;
 using Section.Infrastructure.Database.Repositories;
 using System;
@@ -24,6 +25,7 @@ public static class DatabaseExtension
         });
 
         services.AddScoped<ISectionRepository, SectionRepository>();
+        services.AddMediatR(cf => cf.RegisterServicesFromAssemblies(typeof(DatabaseExtension).Assembly));
 
         return services;
     }

@@ -4,6 +4,9 @@ using Section.Api.Dtos;
 using Section.Application.Sections.CreateSection;
 using Section.Application.Sections.DeleteSection;
 using Section.Application.Sections.EditSection;
+using Section.Domain.Abstractions;
+using Section.Infrastructure.Sections.GetAllSections;
+using Section.Infrastructure.Sections.GetSection;
 
 namespace Section.Api.Controllers;
 
@@ -47,5 +50,21 @@ public class SectionController : ControllerBase
         var command = new EditSectionCommand(id,section.Name,section.Description,section.Day,section.Time,section.TeacherId,section.LimitOfPlaces);
         var result = await _sender.Send(command);
         return Ok(result);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<Result<GetSectionResponse>> GetSection([FromRoute] Guid id)
+    {
+        var query = new GetSectionQuery(id);
+        var result = await _sender.Send(query);
+        return result;
+    }
+
+    [HttpGet]
+    public async Task<Result<IEnumerable<GetSectionResponse>>> GetAllSections()
+    {
+        var query = new GetAllSectionsQuery();
+        var result = await _sender.Send(query);
+        return result;
     }
 }
