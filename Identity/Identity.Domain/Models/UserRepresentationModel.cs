@@ -50,13 +50,13 @@ public class UserRepresentationModel
 
     public string Username { get; set; }
 
-    internal static UserRepresentationModel FromUser(string fistname,string lastname,string emial,string username) =>
+    public static UserRepresentationModel FromUser(string fistname,string lastname,string emial) =>
         new()
         {
             FirstName = fistname,
             LastName = lastname,
             Email = emial,
-            Username = username,
+            Username = emial,
             Enabled = true,
             EmailVerified = true,
             CreatedTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
