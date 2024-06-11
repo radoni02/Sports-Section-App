@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Section.Application.Abstractions.Messaging;
+using Section.Infrastructure.Abstractions.Messaging;
 
 namespace Section.Infrastructure;
 
@@ -17,6 +19,7 @@ public static class InfrastructureExtension
     {
         services.AddDatabase(configuration);
         services.AddMediatR(cf => cf.RegisterServicesFromAssemblies(typeof(DatabaseExtension).Assembly));
+        services.AddScoped<IMessageSender, MessageSender>();
 
         return services;
     }
