@@ -1,5 +1,6 @@
 ﻿using Identity.Application.Abstractions.Authentication;
 using Identity.Infrastructure.Authentication;
+using Identity.Infrastructure.Messaging;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -43,6 +44,8 @@ public static class InfrastructureExtension
         services.AddHttpContextAccessor();
 
         services.AddScoped<IUserContext, UserContext>();
+
+        services.AddHostedService<MessageReciver>();
 
         return services;
     }

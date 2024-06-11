@@ -26,9 +26,7 @@ internal sealed class MessageSender : IMessageSender
             routingKey: $"{type}",
             basicProperties: null,
             body: body);
-
         Console.WriteLine("Sent");
-
     }
 
     private (string,string) HandleMessage<T>(T value) where T : BaseMessage
