@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,12 @@ namespace Identity.Infrastructure.Keycloak
 {
     internal sealed class GroupRepresentation
     {
-        public int MyProperty { get; set; }
+        public GroupRepresentation(string name)
+        {
+            Name = name;
+        }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
     }
 }

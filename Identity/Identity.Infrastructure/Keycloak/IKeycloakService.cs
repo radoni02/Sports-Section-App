@@ -8,6 +8,6 @@ namespace Identity.Infrastructure.Keycloak
 {
     internal interface IKeycloakService
     {
-        Task AddGroupAsync(Guid groupId, Guid teacherId);
+        Task AddGroupAsync(GroupRepresentation groupRepresentation, CancellationToken cancellationToken = default);
     }
 }

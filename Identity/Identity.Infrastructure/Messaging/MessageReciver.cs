@@ -1,10 +1,14 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Identity.Infrastructure.Keycloak;
+using Identity.Infrastructure.Messaging.Messages;
+using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Identity.Infrastructure.Messaging;
@@ -13,9 +17,11 @@ internal sealed class MessageReciver : BackgroundService
 {
     private readonly IConnection _connection;
     private readonly IModel _channel;
+    private readonly IKeycloakService _keycloakService;
 
-    public MessageReciver()
+    public MessageReciver(IKeycloakService keycloakService)
     {
+        _keycloakService = keycloakService;
         var factory = new ConnectionFactory() { HostName = "Localhost", UserName = "guest", Password = "guest" };
         _connection = factory.CreateConnection();
         _channel = _connection.CreateModel();
@@ -39,9 +45,17 @@ internal sealed class MessageReciver : BackgroundService
             byte[] body = ea.Body.ToArray();
             var message = Encoding.UTF8.GetString(body);
             var routingKey = ea.RoutingKey;
-            Console.WriteLine($"{message}  {routingKey}");
+            HandleMessage(message);
         };
         _channel.BasicConsume(queue: queueName, autoAck: true, consumer: consumer);
         await Task.CompletedTask;
     }
+
+    private void HandleMessage(string message)
+    {
+        var deserializedValue = JsonConvert.DeserializeObject<AddSection>(message);
+
+        _keycloakService.AddGroupAsync(new GroupRepresentation($"kosz {deserializedValue.TeacherId}"));
+    }
+
 }
