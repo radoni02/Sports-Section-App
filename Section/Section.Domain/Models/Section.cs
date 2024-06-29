@@ -9,7 +9,7 @@ namespace Section.Domain.Models;
 
 public class Section
 {
-    private Section(string name, string description, bool isSport, DayOfWeek day, TimeOnly time, int limitOfPlaces)
+    private Section(string name, string description, bool isSport, DayOfWeek day, TimeOnly time, int limitOfPlaces, Guid teacherId)
     {
         Id = Guid.NewGuid();
         Name = name;
@@ -19,6 +19,7 @@ public class Section
         Time = time;
         LimitOfPlaces = limitOfPlaces;
         CreateDate = DateTime.UtcNow;
+        TeacherId = teacherId;
     }
     public Guid Id { get; private set; }
     public string Name { get; private set; }
@@ -50,9 +51,9 @@ public class Section
     //    //add log that this student is not registred to this section
     //}
 
-    public static Section CreateSection(string name, string description, bool isSport, DayOfWeek day, TimeOnly time, int limitOfPlaces)
+    public static Section CreateSection(string name, string description, bool isSport, DayOfWeek day, TimeOnly time, int limitOfPlaces, Guid teacherId)
     {
-        return new Section(name, description, isSport, day, time, limitOfPlaces);
+        return new Section(name, description, isSport, day, time, limitOfPlaces, teacherId);
     }
 
     //private bool CheckIfStudentIsAlreadyRegistred(Student student)

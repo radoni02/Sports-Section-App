@@ -24,7 +24,8 @@ internal sealed class CreateSectionCommandHandler : ICommandHandler<CreateSectio
 
     public async Task<Result> Handle(CreateSectionCommand request, CancellationToken cancellationToken)
     {
-        var section = Section.Domain.Models.Section.CreateSection(request.Name,request.Descritpion,request.IsSport,request.Day,request.Time,request.LimitOfPlaces);
+        //check if role is valid to create section
+        var section = Section.Domain.Models.Section.CreateSection(request.Name,request.Descritpion,request.IsSport,request.Day,request.Time,request.LimitOfPlaces,request.TeacherId);
         await _sectionRepository.AddSection(section);
         _messageSender.SendMessage(new AddSection(section.TeacherId));
         //SendMessage should be inside UnitOfWork.SaveChanges

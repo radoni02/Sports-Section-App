@@ -1,5 +1,6 @@
 ﻿using Identity.Application.Abstractions.Authentication;
 using Identity.Infrastructure.Authentication;
+using Identity.Infrastructure.Keycloak;
 using Identity.Infrastructure.Messaging;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -45,7 +47,14 @@ public static class InfrastructureExtension
 
         services.AddScoped<IUserContext, UserContext>();
 
+        //here start app logic
         services.AddHostedService<MessageReciver>();
+
+        services.AddHttpClient<IKeycloakService, KeycloakService>((serviceProvider, httpClient) =>
+        {
+            var keycloakOptions = serviceProvider.GetRequiredService<IOptions<KeycloakOptions>>().Value;
+            httpClient.BaseAddress = new Uri(keycloakOptions.AddGroupUrl);
+        });
 
         return services;
     }

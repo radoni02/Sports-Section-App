@@ -20,7 +20,6 @@ internal sealed class MessageSender : IMessageSender
         using var channel = connection.CreateModel();
 
         channel.ExchangeDeclare($"ssa_{type}", ExchangeType.Direct);
-
         var body = Encoding.UTF8.GetBytes(serializedValue);
         channel.BasicPublish(exchange: $"ssa_{type}",
             routingKey: $"{type}",
